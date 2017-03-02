@@ -13,7 +13,7 @@ view: user_facts {
   }
 
   dimension: order_tiers {
-    view_label: "Orders"
+    view_label: "Users"
     type: tier
     tiers: [0,1,3,4]
     sql: ${lifetime_orders} ;;
