@@ -1,6 +1,8 @@
 view: user_facts {
   derived_table: {
-    sql: select o.user_id, count(distinct oi.order_id) as lifetime_orders, count(distinct oi.id) as lifetime_items, min(o.created_at) as first_order, max(o.created_at) as last_order, coalesce(sum(oi.sale_price-ii.cost),0) as lifetime_proft, coalesce(sum(oi.sale_price),0) as lifetime_revenue
+    sql:select o.user_id, count(distinct oi.order_id) as lifetime_orders, count(distinct oi.id) as lifetime_items, min(o.created_at) as first_order, max(o.created_at) as last_order, coalesce(sum(
+case when (oi.returned_at is null) then (oi.sale_price-ii.cost) else 0 end),0) as lifetime_proft, coalesce(sum(
+case when (oi.returned_at is null) then (oi.sale_price) else 0 end),0)  AS  lifetime_revenue
       from users u
       left join orders o
       on o.user_id=u.id
@@ -19,6 +21,7 @@ view: user_facts {
     sql: ${lifetime_orders} ;;
     style: integer
   }
+
 
   dimension: user_id {
     hidden: yes

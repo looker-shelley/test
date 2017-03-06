@@ -18,6 +18,7 @@ view: users {
   }
 
 
+
   dimension: country {
     type: string
     sql: ${TABLE}.country ;;
@@ -54,7 +55,13 @@ view: users {
 
   dimension: gender {
     type: string
-    sql: ${TABLE}.gender ;;
+    case: {
+      when: {
+        label: "Female"
+        sql:${TABLE}.gender = 'f'  ;;
+      }
+      else: "Male"
+    }
   }
 
   dimension: last_name {
@@ -94,6 +101,22 @@ dimension: first_purchase_lag {
   drill_fields: [detail*]
   description: "The amount of time between when a user creates an account and makes their first purchase"
 }
+
+  dimension: lag_time_tiers {
+    view_label: "Users"
+    type: tier
+    tiers: [0,10,20,30,40,50]
+    sql: ${first_purchase_lag} ;;
+    style: integer
+  }
+
+  dimension: age_tiers {
+    type: tier
+    tiers: [10,20,30,40,50,60]
+    sql: ${age} ;;
+    style: interval
+  }
+
 
   measure: count {
     type: count

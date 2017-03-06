@@ -53,12 +53,21 @@ view: products {
     type: max
     sql: ${retail_price} ;;
     drill_fields: [product_details*]
+    value_format_name: usd
 }
 
 measure: lowest_priced_item {
   type: min
   sql: ${retail_price} ;;
   drill_fields: [product_details*]
+  value_format_name: usd
+}
+
+measure: avg_retail_price {
+  type: average
+  sql: ${retail_price} ;;
+  drill_fields: [product_details*]
+  value_format_name: usd
 }
 set: product_details {
   fields: [id, item_name, category, brand,inventory_items.count]

@@ -69,6 +69,12 @@ explore: products {
     sql_on: ${inventory_items.product_id}=${products.id} ;;
     relationship: one_to_many
   }
+  # join:  order_items {
+  #   fields: [order_items.was_returned]
+  #   type: left_outer
+  #   sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
+  #   relationship: one_to_many
+  # }
 }
 
 
