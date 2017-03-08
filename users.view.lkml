@@ -79,6 +79,36 @@ view: users {
     sql: ${TABLE}.state ;;
   }
 
+  dimension: biggest_state {
+    type: string
+    sql:
+      (SELECT a.state FROM
+        (SELECT state, count(1)
+        from users
+        WHERE {% condition age %} age {% endcondition %}
+        AND  {% condition gender %} gender {% endcondition %}
+        group by 1
+        order by 2 desc
+        limit 1
+        ) a
+      );;
+  }
+
+  filter: age_input {
+    type:  number
+  }
+
+  dimension: my_age_condition {
+    type: yesno
+    sql:  {% condition age_input %} age {% endcondition %} ;;
+  }
+
+  measure: count_my_age_condition {
+    type: count
+    filters: {field: my_age_condition value: "yes"}
+  }
+
+
   dimension: zipcode {
     type: zipcode
     sql: ${TABLE}.zip ;;
@@ -108,6 +138,7 @@ dimension: first_purchase_lag {
     tiers: [0,10,20,30,40,50]
     sql: ${first_purchase_lag} ;;
     style: integer
+    drill_fields: [first_purchase_lag]
   }
 
   dimension: age_tiers {

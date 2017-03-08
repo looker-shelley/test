@@ -126,6 +126,11 @@ measure: teen_profits {
     value_format_name: usd
     drill_fields: [order_item_details*]
   }
+#   measure: total_price {
+#     type: sum_distinct
+#     sql: ${sale_price} ;;
+#     sql_distinct_key: ${id} ;;
+#   }
 
 set: order_item_details {
 fields: [id, users.full_name, products.category, products.item_name, sale_price]

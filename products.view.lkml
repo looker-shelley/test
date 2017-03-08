@@ -10,6 +10,11 @@ view: products {
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
+    link: {
+      label: "Brand Analytics Dashboard"
+      url: "https://sandbox.dev.looker.com/dashboards/229?Date=90%20days&Country=USA&Brand={{ value | encode_uri }}"
+      icon_url: "http://www.looker.com/favicon.ico"
+    }
   }
 
   dimension: category {
